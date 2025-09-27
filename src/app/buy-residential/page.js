@@ -1,25 +1,28 @@
 import BuyResidentialPage from "@/components/templates/BuyResidentialPage";
 
+export const dynamic = "force-dynamic"; // اضافه شد
+
 async function page({ searchParams }) {
   const params = searchParams;
 
-  const res = await fetch("http://localhost:3001/api/profile", {
+  // حتما cache: 'no-store' بذاریم تا SSR همیشه جدید بده
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/profile`, {
     cache: "no-store",
   });
+
   const data = await res.json();
 
-  if(data.error) {
-    return <h3>مشکلی پیش آمده است</h3>
+  if (data.error) {
+    return <h3>مشکلی پیش آمده است</h3>;
   } 
 
   let finalData = data.data;
 
-  if(params?.category){
-    finalData = finalData.filter(i => i.category === params.category)
+  if (params?.category) {
+    finalData = finalData.filter(i => i.category === params.category);
   }
-  // console.log("🚀 finalData:", finalData);
 
-  return <BuyResidentialPage data={finalData}/>;
+  return <BuyResidentialPage data={finalData} />;
 }
 
 export default page;
