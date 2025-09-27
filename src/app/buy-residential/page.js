@@ -4,7 +4,7 @@ async function page({ searchParams }) {
   const params = searchParams;
 
   const res = await fetch(
-    `https://real-state-dusky-seven.vercel.app/api/profile`,
+    `${process.env.NEXTAUTH_URL}/api/profile`,
     {
       cache: "no-store",
     }
